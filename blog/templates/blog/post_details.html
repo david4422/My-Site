@@ -28,6 +28,20 @@
             {% endfor %}
         </div> 
 
+        <div id = "read-later">
+            <form action="{% url "read-later" %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" value="{{post.id}}" name="post_id">
+                <button>
+                    {% if is_save_for_later %}
+                    Remove from "Read Later" make_list
+                    {% else %}
+                    Read Later                    
+                    {% endif %}
+                </button>
+            </form>
+        </div>
+
         <article>
             <img src="{{post.image.url}}" alt={{post.title}}>
             <address>By <a href="mailto:{{post.author.email}}">{{ post.author }}</a></address>
@@ -59,6 +73,7 @@
         <h2>Your Comment</h2>
         <form  action="{% url "details-page" post.slug %}" method="POST">
             {% csrf_token %}
+            
             {% for form_field in comment_form %}
              <div class = "form-control {% if form_field.errors %} invalid {% endif %}">
                 {{form_field.label_tag}}
@@ -66,7 +81,7 @@
                 {{form_field.errors}}
 
              </div>
-            {%endfor%}
+            {%endfor%} 
             <button>Save Comment</button>
         </form>
     </section>
